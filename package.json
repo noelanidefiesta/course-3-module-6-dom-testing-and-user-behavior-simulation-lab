@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
     "eslint": "^9.8.0",
