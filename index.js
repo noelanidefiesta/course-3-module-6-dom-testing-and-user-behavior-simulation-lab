@@ -14,60 +14,56 @@
 // - Create modular utility functions, such as createElement(tag, attributes).
 // - Ensure all functions follow DRY principles for maintainability.
 
+// Get DOM elements
+const addItemBtn = document.getElementById("add-item");
+const removeItemBtn = document.getElementById("remove-item");
+const itemList = document.getElementById("item-list");
+const form = document.getElementById("user-form");
+const input = document.getElementById("user-input");
+const errorMessage = document.getElementById("error-message");
 
-// DOM Elements
-const simulateButton = document.getElementById('simulate-click');
-const form = document.getElementById('user-form');
-const userInput = document.getElementById('user-input');
-const dynamicContent = document.getElementById('dynamic-content');
-const errorMessage = document.getElementById('error-message');
+// Add item on button click
+addItemBtn.addEventListener("click", () => {
+    const newItem = document.createElement("li");
+    newItem.textContent = "New Item";
+    itemList.appendChild(newItem);
+});
 
-// Utility: Create an element with attributes
-function createElementWithAttributes(tag, attributes) {
-    const element = document.createElement(tag);
-    Object.keys(attributes).forEach(attr => {
-        element.setAttribute(attr, attributes[attr]);
-    });
-    return element;
-}
-
-// Utility: Display error message
-function displayError(message) {
-    errorMessage.textContent = message;
-    errorMessage.classList.remove('hidden');
-}
-
-// Utility: Clear error message
-function clearError() {
-    errorMessage.textContent = '';
-    errorMessage.classList.add('hidden');
-}
-
-// Simulate click action
-simulateButton.addEventListener('click', () => {
-    clearError();
-    const newElement = createElementWithAttributes('p', { class: 'dynamic-paragraph' });
-    newElement.textContent = 'Button clicked! This was dynamically added.';
-    dynamicContent.appendChild(newElement);
+// Remove last item
+removeItemBtn.addEventListener("click", () => {
+    const lastItem = itemList.lastElementChild;
+    if (lastItem) {
+        itemList.removeChild(lastItem);
+    }
 });
 
 // Handle form submission
-form.addEventListener('submit', (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
-    clearError();
-
-    const value = userInput.value.trim();
+    const value = input.value.trim();
 
     if (!value) {
-        displayError('Please enter some text.');
+        showError("Please enter a value before submitting.");
         return;
     }
 
-    const submittedItem = createElementWithAttributes('li', {});
-    submittedItem.textContent = `Submitted: ${value}`;
-    dynamicContent.appendChild(submittedItem);
+    clearError();
 
-    userInput.value = '';
+    const newItem = document.createElement("li");
+    newItem.textContent = value;
+    itemList.appendChild(newItem);
+    input.value = "";
 });
+
+// Utility functions
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove("hidden");
+}
+
+function clearError() {
+    errorMessage.textContent = "";
+    errorMessage.classList.add("hidden");
+}
 
 // resubmission again
